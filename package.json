@@ -1,12 +1,12 @@
 {
-    "name": "@clyrolabs/vibesecurity",
+    "name": "clyrolabs-vibesecurity",
     "version": "2.0.0",
     "description": "Servidor MCP (Model Context Protocol) com Zero Trust para análise de segurança com Trivy. Protege workspaces contra Path Traversal, executa scans de vulnerabilidade e gera patches de correção.",
     "main": "dist/index.js",
     "type": "module",
     "bin": {
-        "vibesecurity": "./dist/index.js",
-        "vibesecurity-http": "./dist/server-http.js"
+        "vibesecurity": "dist/index.js",
+        "vibesecurity-http": "dist/server-http.js"
     },
     "files": [
         "dist/",

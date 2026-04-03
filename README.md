@@ -1,4 +1,4 @@
-# @clyrolabs/vibesecurity
+# clyrolabs-vibesecurity
 
 🔒 **Servidor MCP de Segurança por Design** — Análise estática, auditoria, anti-tampering e conformidade OWASP/LGPD.
 
@@ -10,12 +10,12 @@
 
 ### NPM (global)
 ```bash
-npm install -g @clyrolabs/vibesecurity
+npm install -g clyrolabs-vibesecurity
 ```
 
 ### NPX (sem instalar)
 ```bash
-npx @clyrolabs/vibesecurity /caminho/do/projeto
+npx clyrolabs-vibesecurity /caminho/do/projeto
 ```
 
 ### Docker
@@ -42,7 +42,7 @@ vibesecurity /caminho/do/projeto
   "servers": {
     "vibesecurity": {
       "command": "npx",
-      "args": ["-y", "@clyrolabs/vibesecurity", "${workspaceFolder}"]
+      "args": ["-y", "clyrolabs-vibesecurity", "${workspaceFolder}"]
     }
   }
 }
@@ -54,7 +54,7 @@ vibesecurity /caminho/do/projeto
   "mcpServers": {
     "vibesecurity": {
       "command": "npx",
-      "args": ["-y", "@clyrolabs/vibesecurity", "/caminho/do/projeto"]
+      "args": ["-y", "clyrolabs-vibesecurity", "/caminho/do/projeto"]
     }
   }
 }
