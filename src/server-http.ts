@@ -192,6 +192,26 @@ app.get("/health", (_req: Request, res: Response) => {
     });
 });
 
+// Smithery.ai Metadata Card (Bypass authentication scan)
+app.get("/.well-known/mcp/server-card.json", (_req: Request, res: Response) => {
+    res.json({
+        serverInfo: { name: "VibeSecurity", version: "2.0.0" },
+        tools: [
+            { name: "ler_arquivo_seguro", description: "Lê o conteúdo de um arquivo específico após apresentar justificativa para o usuário." },
+            { name: "rodar_scan_trivy", description: "Executa o scanner Trivy em um arquivo ou diretório local." },
+            { name: "propor_correcao_patch", description: "Gera um arquivo .patch com a proposta de correção para um código vulnerável." },
+            { name: "auditar_seguranca_api", description: "Analisa o código buscando falhas de autenticação, inputs não-validados, falta de rate limiting e CORS aberto." },
+            { name: "detectar_vulnerabilidades", description: "Scan profundo de código: SQL Injection, XSS, eval(), secrets hardcoded, OWASP." },
+            { name: "verificar_integridade", description: "Calcula hashes SHA-256 dos módulos, verifica adulteração em runtime, detecta debugger e anomalias de timing." },
+            { name: "gerar_relatorio_conformidade", description: "Gera relatório detalhado de conformidade LGPD/GDPR e cobertura OWASP Top 10, com score e recomendações." },
+            { name: "blindar_projeto", description: "Instalação visual guiada — executa todas as análises de segurança sequencialmente e gera relatório visual." },
+            { name: "configurar_protecao", description: "Gera ou atualiza .vibesecurity.json com as proteções ativas e regras." },
+            { name: "analisar_dependencias", description: "Verifica dependências (package-lock.json) por CVEs conhecidas usando Trivy." },
+            { name: "gerar_politica_seguranca", description: "Gera arquivo SECURITY.md modelo." }
+        ]
+    });
+});
+
 // ─── Startup ──────────────────────────────────────────────────────────────────
 
 async function iniciar() {
