@@ -1,0 +1,24 @@
+startCommand:
+  type: stdio
+configSchema:
+  type: object
+  required: []
+  properties:
+    VIBESECURITY_DIR:
+      type: string
+      description: "Diretório protegido para o servidor analisar. (Padrão: process.cwd())"
+    VIBESECURITY_KEY:
+      type: string
+      description: "Chave secreta para autenticação (necessário apenas se for exposto via HTTP, que não é o caso do stdio)."
+commandFunction: |-
+  (config) => {
+    const env = {};
+    if (config.VIBESECURITY_DIR) env.VIBESECURITY_DIR = config.VIBESECURITY_DIR;
+    if (config.VIBESECURITY_KEY) env.VIBESECURITY_KEY = config.VIBESECURITY_KEY;
+    
+    return {
+      command: 'node',
+      args: ['./dist/index.js', config.VIBESECURITY_DIR || '.'],
+      env: env
+    };
+  }
