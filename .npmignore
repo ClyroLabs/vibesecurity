@@ -1,0 +1,22 @@
+# Source (only dist/ is needed)
+src/
+tsconfig.json
+
+# Dev files
+.gitignore
+.vscode/
+.idea/
+*.patch
+
+# Workspace
+*.code-workspace
+
+# Tests
+__tests__/
+*.test.*
+
+# Misc
+.env
+.env.local
+*.log
+CHANGELOG.md

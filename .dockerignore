@@ -1,0 +1,11 @@
+node_modules
+dist
+.git
+.vibesecurity
+*.tgz
+*.patch
+.gitignore
+.npmignore
+CHANGELOG.md
+VibeSecurity.code-workspace
+src/**/*.patch

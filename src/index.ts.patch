@@ -1,0 +1,54 @@
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -6,7 +6,7 @@
+ import { z } from "zod";
+ import fs from "fs/promises";
+ import path from "path";
+-import { exec } from "child_process";
++import { execFile } from "child_process";
+ import util from "util";
+ 
+-const execAsync = util.promisify(exec);
++const execFileAsync = util.promisify(execFile);
+@@ -33,9 +33,10 @@
+     },
+     async ({ caminho_arquivo, explicacao_para_humanos }) => {
+-        const caminhoAbsoluto = path.resolve(DIRETORIO_PERMITIDO, caminho_arquivo);
+-        if (!caminhoAbsoluto.startsWith(DIRETORIO_PERMITIDO)) {
++        const caminhoResolvido = path.resolve(DIRETORIO_PERMITIDO, caminho_arquivo);
++        const caminhoReal = await fs.realpath(caminhoResolvido).catch(() => caminhoResolvido);
++        if (!caminhoReal.startsWith(DIRETORIO_PERMITIDO)) {
+             return { content: [{ type: "text", text: "🚨 ALERTA: Acesso negado. Tentativa de Path Traversal." }] };
+         }
+         try {
+-            const conteudo = await fs.readFile(caminhoAbsoluto, "utf-8");
++            const conteudo = await fs.readFile(caminhoReal, "utf-8");
+             return { content: [{ type: "text", text: `Conteúdo de ${caminho_arquivo}:\n\n${conteudo}` }] };
+@@ -55,14 +56,15 @@
+     },
+     async ({ alvo, explicacao_para_humanos }) => {
+-        const caminhoAbsoluto = path.resolve(DIRETORIO_PERMITIDO, alvo);
+-        if (!caminhoAbsoluto.startsWith(DIRETORIO_PERMITIDO)) {
++        const caminhoResolvido = path.resolve(DIRETORIO_PERMITIDO, alvo);
++        const caminhoReal = await fs.realpath(caminhoResolvido).catch(() => caminhoResolvido);
++        if (!caminhoReal.startsWith(DIRETORIO_PERMITIDO)) {
+             return { content: [{ type: "text", text: "🚨 ALERTA: Tentativa de scan fora do diretório permitido." }] };
+         }
+         try {
+-            const comando = `trivy fs --scanners vuln,secret,config "${caminhoAbsoluto}"`;
+-            const { stdout } = await execAsync(comando);
++            const { stdout } = await execFileAsync("trivy", ["fs", "--scanners", "vuln,secret,config", caminhoReal]);
+             return { content: [{ type: "text", text: `Scan concluído. Nenhuma vulnerabilidade crítica:\n\n${stdout}` }] };
+@@ -80,9 +82,10 @@
+     },
+     async ({ caminho_arquivo, conteudo_patch, explicacao_para_humanos }) => {
+-        const caminhoAbsoluto = path.resolve(DIRETORIO_PERMITIDO, caminho_arquivo);
+-        if (!caminhoAbsoluto.startsWith(DIRETORIO_PERMITIDO)) {
++        const caminhoResolvido = path.resolve(DIRETORIO_PERMITIDO, caminho_arquivo);
++        const caminhoReal = await fs.realpath(caminhoResolvido).catch(() => caminhoResolvido);
++        if (!caminhoReal.startsWith(DIRETORIO_PERMITIDO)) {
+             return { content: [{ type: "text", text: "🚨 ALERTA: Tentativa de escrever fora do diretório permitido." }] };
+         }
+-        const caminhoPatch = `${caminhoAbsoluto}.patch`;
++        const caminhoPatch = `${caminhoReal}.patch`;
+         try {
